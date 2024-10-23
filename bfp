@@ -1,0 +1,30 @@
+[servo BFPTouch]
+pin: PA1                     # Pin del servo
+initial_angle: 50                  # Ángulo inicial (bajado)
+maximum_servo_angle: 120             # Ángulo máximo (desplegado)
+minimum_pulse_width: 0.001          # Ancho de pulso mínimo
+maximum_pulse_width: 0.002          # Ancho de pulso máximo
+
+[probe]
+pin: PC14                       # Pin del probe
+x_offset: -36                       # Offset en X: 36 mm a la izquierda del nozzle
+y_offset: -36                         # Offset en Y: ajusta según la posición del probe
+z_offset: 1.950                     # Ajuste en Z: usa el valor que necesites
+speed: 8.0                          # Velocidad de despliegue/retracción
+samples: 1                          # Número de muestras para la medición
+
+
+activate_gcode:
+    SET_SERVO SERVO=BFPTouch ANGLE=50  # Desplegar el probe
+
+deactivate_gcode:
+    SET_SERVO SERVO=BFPTouch ANGLE=120  # Retraer el probe
+
+[bed_mesh]
+speed: 100          # Velocidad de sondeo
+horizontal_move_z: 5   # Altura para mover Z entre puntos
+mesh_min: 10, 10    # Esquinas inferiores izquierda
+mesh_max: 190, 190  # Esquinas superiores derecha
+probe_count: 3, 3   # Cuántas sondas en cada dirección
+post_gcode:
+    G28                           # Home al finalizar la nivelación
